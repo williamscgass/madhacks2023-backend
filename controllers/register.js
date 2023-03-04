@@ -6,6 +6,7 @@ module.exports.register = async function (req, res, next) {
   const user = await User.create({
     username: req.body.username,
     password: req.body.password,
+    isOrg: req.body.isOrg
   });
 
   return res.status(200).json(user);

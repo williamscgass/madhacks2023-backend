@@ -1,4 +1,5 @@
 const passport = require('passport');
+const User = require("../models/user.js");
 
 module.exports.login = async function (req, res, next) {
     try {
@@ -9,7 +10,7 @@ module.exports.login = async function (req, res, next) {
           const result = req.body.password === user.password;
           if (result) {
             req.session.userId = user._id;
-            res.send("secret");
+            res.redirect("/events")
           } else {
             res.status(400).json({ error: "password doesn't match" });
           }

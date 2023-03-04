@@ -46,7 +46,13 @@ app.use("/login", loginRouter);
 const registerRouter = require("./routes/register.js");
 app.use("/register", registerRouter);
 
+// getting, making events 
+const eventsRouter = require("./routes/events.js");
+app.use("/events", eventsRouter);
 
+app.use("/", (req, res, next) => {
+    res.send("failed.");
+})
 
 app.listen(process.env.LOCAL_PORT, function () {
   console.log("listening.");

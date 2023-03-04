@@ -13,8 +13,8 @@ const userSchema = new Schema({
     required: true,
   },
   name: String,
-  org: { type: Boolean, required: true },
-  org_ref: { type: Schema.Types.ObjectId, ref: 'Org'},
+  isOrg: { type: Boolean, required: true },
+  orgRef: { type: Schema.Types.ObjectId, ref: 'Org'},
   description: String,
   location: {
     lat: Number,
