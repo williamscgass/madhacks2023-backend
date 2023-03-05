@@ -69,7 +69,7 @@ module.exports.registerForEvent = async function (req, res, next) {
   event.currentVolunteers.push(req.session.userId);
   user.currentCommitments.push(req.params.event_id);
   await user.save();
-  await sendEmailEventSignUP(req, event, user)
+  // await sendEmailEventSignUP(req, event, user)
 
   await Promise.allSettled([event.save(), user.save()]);
   res.send({
