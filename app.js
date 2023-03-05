@@ -23,8 +23,8 @@ const app = express();
 // allow cross orin
 const cors = require('cors');
 app.use(cors({
-    origin: ["http://localhost:4000", "http://localhost:5173", "http://altruistapp.tech"],
-    credentials: true
+  origin: ["http://localhost:4000", "http://localhost:5173", "http://altruistapp.tech"],
+  credentials: true
 }));
 
 // Configure Sessions Middleware
@@ -75,6 +75,10 @@ app.use("/", async (req, res, next) => {
     });
 })
 
-app.listen(process.env.LOCAL_PORT, function () {
-  console.log("listening.");
-});
+try {
+  app.listen(process.env.LOCAL_PORT, function () {
+    console.log("listening.");
+  });
+} catch (e) {
+  console.log(e);
+}

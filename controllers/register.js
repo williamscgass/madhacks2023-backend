@@ -1,6 +1,7 @@
 const User = require("../models/user.js");
 const Org = require("../models/org.js");
 const get_location = require("./location.js");
+const { SITE_URL } = require("../env.js");
 
 module.exports.register = async function (req, res, next) {
   if (req.body.isOrg == "organization") {
@@ -32,5 +33,5 @@ module.exports.register = async function (req, res, next) {
     console.log("org created");
   }
 
-  return res.status(200).json(user);
+  res.redirect(SITE_URL + "/login");
 };
