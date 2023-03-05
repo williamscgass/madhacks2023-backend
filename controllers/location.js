@@ -4,7 +4,7 @@ const options = {
 };
 const geoCoder = nodeGeocoder(options);
 
-module.exports = async function (address) {
+module.exports = async function (req) {
   let location = await geoCoder.geocode(req.body.address);
   location = location[0];
   return {

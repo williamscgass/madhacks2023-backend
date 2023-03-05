@@ -23,7 +23,7 @@ const app = express();
 // allow cross orin
 const cors = require('cors');
 app.use(cors({
-    origin: '*'
+    origin: ["http://localhost:4000"]
 }));
 
 // Configure Sessions Middleware

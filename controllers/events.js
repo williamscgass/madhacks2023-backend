@@ -2,6 +2,7 @@ const Event = require("../models/event.js");
 const Org = require("../models/org.js");
 const User = require("../models/user.js");
 const EventList = require("../responses/events.js");
+const get_location = require("./location.js");
 
 module.exports.getEventsList = async function (req, res, next) {
   const num_events = req.params.num_events ? req.params.num_events : 100;
@@ -18,9 +19,18 @@ module.exports.getOneEvent = async function (req, res, next) {
   res.send("hi");
 };
 
-module.exports.createEvent = async function (req, res, next) {
+
+module.exports.createEvent = async function (req, res, next) {    
   const body = req.body;
-  const event = new Event(req.body);
+  const location = await get_location(req);
+  const event = new Event({
+    name: req.body.name,
+    time: req.body.time,
+    numVolunteersNeeded: req.body.numVolunteersNeeded,
+    description: req.body.description,
+    org: req.body.org,
+    location: location
+  });
   await event.save();
   const org = await Org.findById(body.org);
   console.log(org);
