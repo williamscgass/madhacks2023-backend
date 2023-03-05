@@ -23,8 +23,9 @@ const userSchema = new Schema({
   ],
   description: String,
   location: {
+    address: String,
     lat: Number,
-    lon: Number,
+    lon: Number
   },
 });
 

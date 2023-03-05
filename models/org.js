@@ -20,6 +20,7 @@ const orgSchema = new Schema({
     ],
     description: String,
     location: {
+        address: String,
         lat: Number,
         lon: Number
     },

@@ -20,6 +20,12 @@ const User = require("./models/user.js"); // User Model
 
 const app = express();
 
+// allow cross orin
+const cors = require('cors');
+app.use(cors({
+    origin: '*'
+}));
+
 // Configure Sessions Middleware
 app.use(
   session({
