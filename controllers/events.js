@@ -3,6 +3,7 @@ const Org = require("../models/org.js");
 const User = require("../models/user.js");
 const EventList = require("../responses/events.js");
 const get_location = require("./location.js");
+const sendEmailEventSignUP = require("./twilio/sendEmailEventSignUP.js")
 
 module.exports.getEventsList = async function (req, res, next) {
   const num_events = req.params.num_events ? req.params.num_events : 100;
@@ -50,7 +51,7 @@ module.exports.createEvent = async function (req, res, next) {
  * Allows user to sign up for event. Assumes user logged in and is user, not org.
  */
 module.exports.signUpForEvent = async function (req, res, next) {
-  const event = await Event.findById(req.params.event_id);
+  const event = await Event.findById(req.params.event_id).populate("org");
   const user = await User.findById(req.session.userId);
   if ((event.numVolunteersNeeded <= event.numVolunteersCurrently) | !event) {
     res.send({ success: false, description: "event full, or doesn't exist" });
@@ -63,6 +64,8 @@ module.exports.signUpForEvent = async function (req, res, next) {
   await event.save();
   user.currentCommitments.push(req.params.event_id);
   await user.save();
+  await sendEmailEventSignUP(req, event, user)
+
   res.send({
     success: true,
     description: "signed up, see in my events"
