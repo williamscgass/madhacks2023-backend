@@ -15,6 +15,12 @@ const userSchema = new Schema({
   name: String,
   isOrg: { type: Boolean, required: true },
   orgRef: { type: Schema.Types.ObjectId, ref: 'Org'},
+  currentCommitments: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: "Event"
+    }
+  ],
   description: String,
   location: {
     lat: Number,

@@ -14,10 +14,20 @@ const eventSchema = new Schema({
         lat: Number,
         lon: Number
     },
-    numVolunteers: {
+    numVolunteersNeeded: {
         type: Number,
         required: true
     },
+    numVolunteersCurrently: {
+        type: Number,
+        default: 0
+    },
+    currentVolunteers: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
     img: String,
     org: {
         type: Schema.Types.ObjectId,
