@@ -22,6 +22,7 @@ module.exports.getOneEvent = async function (req, res, next) {
 };
 
 module.exports.createEvent = async function (req, res, next) {
+  const user = await User.findById(req.session.userId);
   const body = req.body;
   const location = await get_location(req);
   const time = {
@@ -34,12 +35,12 @@ module.exports.createEvent = async function (req, res, next) {
     numVolunteersNeeded: req.body.numVolunteersNeeded,
     description: req.body.description,
     time: time,
-    org: req.body.org,
+    org: user.orgRef,
     location: location,
   });
 
   await event.save();
-  const org = await Org.findById(body.org);
+  const org = await Org.findById(user.orgRef);
   console.log(org);
   org.eventList.push(event._id);
   await org.save();
