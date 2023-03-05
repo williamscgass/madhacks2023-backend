@@ -48,26 +48,52 @@ module.exports.createEvent = async function (req, res, next) {
 };
 
 /**
- * Allows user to sign up for event. Assumes user logged in and is user, not org.
+ * Allows user to register for event. Assumes user logged in and is user, not org.
  */
-module.exports.signUpForEvent = async function (req, res, next) {
-  const event = await Event.findById(req.params.event_id).populate("org");
+module.exports.registerForEvent = async function (req, res, next) {
+  const event = await Event.findById(req.params.event_id);
   const user = await User.findById(req.session.userId);
   if ((event.numVolunteersNeeded <= event.numVolunteersCurrently) | !event) {
     res.send({ success: false, description: "event full, or doesn't exist" });
+    return
   }
   if (event.currentVolunteers.includes(user._id)) {
-    res.send({success: false, description: "already signed up for the event"});
+    res.send({ success: false, description: "already signed up for the event" });
+    return
   }
   event.numVolunteersCurrently += 1;
   event.currentVolunteers.push(req.session.userId);
-  await event.save();
   user.currentCommitments.push(req.params.event_id);
   await user.save();
   await sendEmailEventSignUP(req, event, user)
 
+  await Promise.allSettled([event.save(), user.save()]);
   res.send({
     success: true,
-    description: "signed up, see in my events"
+    description: "registered for event, see in my events"
+  });
+};
+
+/**
+ * Allows user to unregister for event. Assumes user logged in and is user, not org.
+ */
+module.exports.unregisterForEvent = async function (req, res, next) {
+  const event_id = req.params.event_id;
+  const event = await Event.findById(event_id);
+  const user_id = req.session.userId
+  const user = await User.findById(user_id);
+  console.log(event_id);
+  console.log(user_id);
+  if (!event.currentVolunteers.includes(user_id)) {
+    res.send({ success: false, description: "not signed up for the event" });
+    return
+  }
+  event.numVolunteersCurrently -= 1;
+  event.currentVolunteers = event.currentVolunteers.filter((id) => id != user_id);
+  user.currentCommitments = user.currentCommitments.filter((id) => id != event_id);
+  await Promise.allSettled([event.save(), user.save()]);
+  res.send({
+    success: true,
+    description: "unregistered for event"
   });
 };

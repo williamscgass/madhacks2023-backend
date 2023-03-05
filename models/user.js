@@ -27,6 +27,12 @@ const userSchema = new Schema({
     lat: Number,
     lon: Number
   },
+  groupList: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: "Group"
+    }
+  ]
 });
 
 userSchema.plugin(passportLocalMongoose);

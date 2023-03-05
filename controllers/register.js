@@ -2,6 +2,7 @@ const User = require("../models/user.js");
 const Org = require("../models/org.js");
 const get_location = require("./location.js");
 const sendEmail = require("./twilio/sendEmailSignUP.js")
+const { SITE_URL } = require("../env.js");
 
 module.exports.register = async function (req, res, next) {
   if (req.body.isOrg == "organization") {
@@ -15,6 +16,7 @@ module.exports.register = async function (req, res, next) {
   
   const location = await get_location(req);
   const user = await User.create({
+    name: req.body.name,
     username: req.body.username,
     password: req.body.password,
     isOrg: req.body.isOrg,
@@ -32,6 +34,6 @@ module.exports.register = async function (req, res, next) {
     await org.save();
     console.log("org created");
   }
- 
-  return res.status(200).json(user);
+
+  res.redirect(SITE_URL + "/login");
 };
