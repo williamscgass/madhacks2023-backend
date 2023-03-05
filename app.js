@@ -53,6 +53,9 @@ app.use("/login", loginRouter);
 const registerRouter = require("./routes/register.js");
 app.use("/register", registerRouter);
 
+const userRouter = require("./routes/user.js");
+app.use("/users", userRouter);
+
 // getting, making events 
 const eventsRouter = require("./routes/events.js");
 app.use("/events", eventsRouter);
