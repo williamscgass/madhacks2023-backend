@@ -23,8 +23,7 @@ module.exports.register = async function (req, res, next) {
     location: location
   });
 
-  console.log(user.location);
-  await sendEmail(req, user.username);
+  // await sendEmail(req, user.username);
 
   if (req.body.isOrg == "true") {
     const org = await Org.create({

@@ -39,8 +39,6 @@ module.exports.createEvent = async function (req, res, next) {
     location: location,
   });
   const org = await Org.findById(user.orgRef);
-  console.log(user);
-  console.log(org);
   org.eventList.push(event._id);
   await event.save();
   await org.save();
