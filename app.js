@@ -60,8 +60,19 @@ app.use("/users", userRouter);
 const eventsRouter = require("./routes/events.js");
 app.use("/events", eventsRouter);
 
-app.use("/", (req, res, next) => {
-    res.send("failed.");
+// basic get retruns login info
+app.use("/", async (req, res, next) => {
+    const loggedIn = req.session.userId != undefined;
+    let isOrg = false;
+    if (loggedIn) {
+        const user = await User.findById(req.session.userId);
+        isOrg = user.isOrg;
+    }
+    res.send({
+        loggedIn: loggedIn,
+        isOrg: isOrg,
+        cookies: req.session
+    });
 })
 
 app.listen(process.env.LOCAL_PORT, function () {
