@@ -16,7 +16,9 @@ module.exports.getEventsMap = async function (req, res, next) {
 };
 
 module.exports.getOneEvent = async function (req, res, next) {
-  res.send("hi");
+  const el = new EventList(null, null);
+  await el.loadById(req.params.event_id);
+  res.send(el.body);
 };
 
 module.exports.createEvent = async function (req, res, next) {
@@ -61,9 +63,8 @@ module.exports.signUpForEvent = async function (req, res, next) {
   await event.save();
   user.currentCommitments.push(req.params.event_id);
   await user.save();
-  res.redirect('/events');
-  //res.send({
-  //  success: true,
-  //  description: "signed up, see in my events"
- // });
+  res.send({
+    success: true,
+    description: "signed up, see in my events"
+  });
 };

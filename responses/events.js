@@ -8,9 +8,14 @@ class EventList {
   }
 
   async expand(location) {
-    const list = await Event.find({})
-        .limit(this.num_events)
-        .populate("org");
+    const list = await Event.find({}).limit(this.num_events).populate("org");
+    this.body = list;
+  }
+
+  async loadById(id) {
+    const list = await Event.findById(id)
+      .populate("org")
+      .populate("currentVolunteers");
     this.body = list;
   }
 }
