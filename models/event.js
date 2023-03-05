@@ -7,8 +7,8 @@ const eventSchema = new Schema({
         type: String
     },
     time: {
-        required: true,
-        type: String
+        start: Date,
+        end: Date
     },
     location: {
         address: String,

@@ -22,14 +22,20 @@ module.exports.getOneEvent = async function (req, res, next) {
 module.exports.createEvent = async function (req, res, next) {
   const body = req.body;
   const location = await get_location(req);
+  const time = {
+    start: req.body.start,
+    end: req.body.end
+  }
   const event = new Event({
     name: req.body.name,
     time: req.body.time,
     numVolunteersNeeded: req.body.numVolunteersNeeded,
     description: req.body.description,
+    time: time,
     org: req.body.org,
     location: location,
   });
+
   await event.save();
   const org = await Org.findById(body.org);
   console.log(org);
@@ -55,8 +61,9 @@ module.exports.signUpForEvent = async function (req, res, next) {
   await event.save();
   user.currentCommitments.push(req.params.event_id);
   await user.save();
-  res.send({
-    success: true,
-    description: "signed up, see in my events"
-  });
+  res.redirect('/events');
+  //res.send({
+  //  success: true,
+  //  description: "signed up, see in my events"
+ // });
 };
