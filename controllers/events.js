@@ -19,8 +19,7 @@ module.exports.getOneEvent = async function (req, res, next) {
   res.send("hi");
 };
 
-
-module.exports.createEvent = async function (req, res, next) {    
+module.exports.createEvent = async function (req, res, next) {
   const body = req.body;
   const location = await get_location(req);
   const event = new Event({
@@ -29,7 +28,7 @@ module.exports.createEvent = async function (req, res, next) {
     numVolunteersNeeded: req.body.numVolunteersNeeded,
     description: req.body.description,
     org: req.body.org,
-    location: location
+    location: location,
   });
   await event.save();
   const org = await Org.findById(body.org);
@@ -45,16 +44,19 @@ module.exports.createEvent = async function (req, res, next) {
 module.exports.signUpForEvent = async function (req, res, next) {
   const event = await Event.findById(req.params.event_id);
   const user = await User.findById(req.session.userId);
-  if (event.numVolunteersNeeded <= event.numVolunteersCurrently | !event ) {
-    res.send("the event is full :(");
+  if ((event.numVolunteersNeeded <= event.numVolunteersCurrently) | !event) {
+    res.send({ success: false, description: "event full, or doesn't exist" });
   }
-  if ( event.currentVolunteers.includes(user._id)) {
-    res.send("you've already signed up");
+  if (event.currentVolunteers.includes(user._id)) {
+    res.send({success: false, description: "already signed up for the event"});
   }
   event.numVolunteersCurrently += 1;
   event.currentVolunteers.push(req.session.userId);
   await event.save();
   user.currentCommitments.push(req.params.event_id);
   await user.save();
-  res.send("you've signed up for an event :) see it in your commitments");
+  res.send({
+    success: true,
+    description: "signed up, see in my events"
+  });
 };
