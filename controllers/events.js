@@ -38,6 +38,12 @@ module.exports.createEvent = async function (req, res, next) {
     org: user.orgRef,
     location: location,
   });
+  if (event.time.start == undefined) {
+    event.time.start = 1;
+  }
+  if (event.time.end == undefined) {
+    event.time.end = 1;
+  }
   const org = await Org.findById(user.orgRef);
   org.eventList.push(event._id);
   await event.save();
