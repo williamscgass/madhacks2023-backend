@@ -3,6 +3,12 @@ const Org = require("../models/org.js");
 
 
 module.exports.register = async function (req, res, next) {
+  if (req.body.isOrg == "organization") {
+    req.body.isOrg = "true";
+  }
+  else {
+    req.body.isOrg = "false";
+  }
   // TODO: password hashing
   // TODO: check only one user
   const user = await User.create({
