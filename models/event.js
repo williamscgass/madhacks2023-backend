@@ -8,7 +8,7 @@ const eventSchema = new Schema({
     },
     time: {
         required: true,
-        type: Date
+        type: String
     },
     location: {
         lat: Number,
@@ -18,7 +18,7 @@ const eventSchema = new Schema({
         type: Number,
         required: true
     },
-    img: String
+    img: String,
     org: {
         type: Schema.Types.ObjectId,
         required: true,

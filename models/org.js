@@ -6,10 +6,15 @@ const orgSchema = new Schema({
         required: true,
         type: String
     },
+    user: {
+        required: true,
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     founded: Date,
     eventList: [
         {
-            type: Schema.Type.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'Event'
         }
     ],
