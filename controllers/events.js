@@ -32,18 +32,17 @@ module.exports.createEvent = async function (req, res, next) {
   }
   const event = new Event({
     name: req.body.name,
-    time: req.body.time,
     numVolunteersNeeded: req.body.numVolunteersNeeded,
     description: req.body.description,
     time: time,
     org: user.orgRef,
     location: location,
   });
-
-  await event.save();
   const org = await Org.findById(user.orgRef);
+  console.log(user);
   console.log(org);
   org.eventList.push(event._id);
+  await event.save();
   await org.save();
   res.send("event created.");
 };
