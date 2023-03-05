@@ -1,3 +1,6 @@
+// load schemas
+const Group = require("./models/group.js");
+
 const express = require("express"); // server software
 const bodyParser = require("body-parser"); // parser middleware
 const session = require("express-session"); // session middleware
@@ -23,7 +26,7 @@ const app = express();
 // allow cross orin
 const cors = require('cors');
 app.use(cors({
-  origin: ["http://localhost:4000", "http://localhost:5173", "http://altruistapp.tech"],
+  origin: ["http://localhost:4000", "http://localhost:5173", "http://altruistapp.tech", "https://altruistapp.tech"],
   credentials: true
 }));
 
