@@ -9,7 +9,8 @@ class EventList {
 
   async expand(location) {
     const list = await Event.find({})
-        .limit(this.num_events);
+        .limit(this.num_events)
+        .populate("org");
     this.body = list;
   }
 }
