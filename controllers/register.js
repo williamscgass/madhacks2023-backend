@@ -29,8 +29,8 @@ module.exports.register = async function (req, res, next) {
         name: req.body.username,
         user: user._id
     });
-    await org.save();
-    console.log("org created");
+    user.orgRef = org._id;
+    await user.save();
   }
 
   res.redirect(SITE_URL + "/login");
