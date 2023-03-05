@@ -74,6 +74,7 @@ app.use("/", async (req, res, next) => {
     res.send({
         loggedIn: loggedIn,
         isOrg: isOrg,
+        id: req.session.userId,
         cookies: req.session
     });
 })

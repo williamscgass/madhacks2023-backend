@@ -27,8 +27,8 @@ module.exports.createEvent = async function (req, res, next) {
   const body = req.body;
   const location = await get_location(req);
   const time = {
-    start: req.body.start,
-    end: req.body.end
+    start: req.body.startTime,
+    end: req.body.endTime
   }
   const event = new Event({
     name: req.body.name,
